@@ -80,12 +80,80 @@ The system integrates with various Model Context Protocol (MCP) servers:
 
 ## Documentation
 
-See the `docs/` directory for detailed documentation:
+### Getting Started
+- **[Getting Started Guide](docs/getting-started.md)** - Quick start with examples
+- **[Complete Workflow Example](examples/complete-workflow-example.md)** - Step-by-step walkthrough
 
-- [Agent Configuration Guide](docs/agent-configuration.md)
-- [Workflow Design Guide](docs/workflow-design.md)
-- [Prompt Engineering Guide](docs/prompt-engineering.md)
-- [MCP Integration Guide](docs/mcp-integration.md)
+### Core Documentation
+- **[Agent Configuration Guide](docs/agent-configuration.md)** - How to configure agents
+- **[Workflow Design Guide](docs/workflow-design.md)** - Design orchestration workflows
+- **[Agent Data Flow](docs/agent-data-flow-detailed.md)** - How outputs become inputs (Steps 1-4)
+- **[Agent Data Flow Steps 5-7](docs/agent-data-flow-steps-5-7.md)** - Testing and review flow
+
+### Implementation
+- **[Orchestrator Implementation](workflows/orchestrator.ts)** - Programmatic workflow execution
+- **[Usage Examples](examples/usage-examples.md)** - 9 practical examples
+
+## How It Works: Agent Data Flow
+
+Each agent's output becomes the next agent's input, creating a traceable chain:
+
+```
+User Requirements
+    ↓
+[Requirements Analysis Agent] → requirements_doc
+    ↓
+[Architecture Agent] → architecture_doc
+    ↓
+[Planning Agent] → technical_spec
+    ↓
+[API Design Agent] → api_spec
+    ↓
+[Implementation Agent] → source_code
+    ↓
+[Unit Test Agent] → test_code
+    ↓
+[Code Review Agent] → review_report
+    ↓
+[E2E Test Agent] → e2e_results
+    ↓
+Production Ready Code ✅
+```
+
+### Example Data Flow
+
+**Step 1:** User provides feature requirements
+```json
+{
+  "feature": "User Management",
+  "requirements": ["Create users", "Authentication", "RBAC"]
+}
+```
+
+**Step 2:** Requirements Agent outputs structured requirements
+```json
+{
+  "documentId": "REQ-001",
+  "functionalRequirements": [...],
+  "userStories": [...],
+  "acceptanceCriteria": [...]
+}
+```
+
+**Step 3:** This becomes input to Planning Agent, which outputs
+```json
+{
+  "documentId": "SPEC-001",
+  "basedOn": ["REQ-001"],
+  "apiEndpoints": [...],
+  "tasks": [...],
+  "sprintPlan": {...}
+}
+```
+
+**And so on...** Each agent builds upon previous outputs.
+
+See [Complete Workflow Example](examples/complete-workflow-example.md) for full details
 
 ## Contributing
 
