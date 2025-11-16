@@ -1,0 +1,877 @@
+{
+  "agents": [
+    {
+      "id": "arch-001",
+      "name": "Technical Documentation Agent",
+      "category": "architecture",
+      "phase": "Architecture Design",
+      "owner": "Tuan Do",
+      "responsibilities": [
+        "Design overall system architecture and component diagrams",
+        "Define microservices boundaries and communication patterns",
+        "Create technical architecture documentation",
+        "Establish architectural principles and patterns"
+      ],
+      "priority": "high",
+      "tools": [
+        "Claude AI",
+        "GitHub Copilot",
+        "Cursor"
+      ],
+      "mcpServers": [],
+      "inputs": [
+        {
+          "name": "requirements",
+          "type": "document",
+          "required": true,
+          "description": "Business and technical requirements"
+        },
+        {
+          "name": "constraints",
+          "type": "object",
+          "required": false,
+          "description": "Technical and business constraints"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "architectureDocument",
+          "type": "markdown",
+          "description": "Comprehensive architecture documentation"
+        },
+        {
+          "name": "componentDiagrams",
+          "type": "diagrams",
+          "description": "System component diagrams"
+        },
+        {
+          "name": "architecturalPrinciples",
+          "type": "document",
+          "description": "Architectural principles and patterns"
+        }
+      ],
+      "dependencies": [],
+      "promptTemplate": "prompts/architecture/technical-documentation.md",
+      "configuration": {
+        "diagramFormat": ["C4", "UML"],
+        "documentationStyle": "ADR",
+        "architecturePatterns": ["microservices", "event-driven", "layered"]
+      }
+    },
+    {
+      "id": "arch-002",
+      "name": "Technical Requirement Analysis Agent",
+      "category": "architecture",
+      "phase": "Architecture Design",
+      "owner": "Tuan Do",
+      "responsibilities": [
+        "Analyze business and technical requirements",
+        "Create question lists for stakeholders and clarification",
+        "Develop Work Breakdown Structure (WBS)",
+        "Identify technical constraints and dependencies",
+        "Define functional and non-functional requirements",
+        "Create requirement traceability matrix"
+      ],
+      "priority": "high",
+      "tools": [
+        "Claude AI",
+        "GitHub Copilot",
+        "Cursor"
+      ],
+      "mcpServers": [],
+      "inputs": [
+        {
+          "name": "businessRequirements",
+          "type": "document",
+          "required": true,
+          "description": "Business requirements and objectives"
+        },
+        {
+          "name": "stakeholders",
+          "type": "array",
+          "required": true,
+          "description": "List of stakeholders"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "analysisDocument",
+          "type": "markdown",
+          "description": "Requirements analysis document"
+        },
+        {
+          "name": "wbs",
+          "type": "structured",
+          "description": "Work Breakdown Structure"
+        },
+        {
+          "name": "traceabilityMatrix",
+          "type": "spreadsheet",
+          "description": "Requirement traceability matrix"
+        },
+        {
+          "name": "clarificationQuestions",
+          "type": "document",
+          "description": "Questions for stakeholders"
+        }
+      ],
+      "dependencies": [],
+      "promptTemplate": "prompts/architecture/requirement-analysis.md",
+      "configuration": {
+        "requirementTypes": ["functional", "non-functional", "technical"],
+        "analysisDepth": "comprehensive"
+      }
+    },
+    {
+      "id": "arch-003",
+      "name": "Drawing Agent",
+      "category": "architecture",
+      "phase": "Architecture Design",
+      "owner": "Tuan Do",
+      "responsibilities": [
+        "Create system architecture diagrams (C4 model, UML)",
+        "Design database ER diagrams and schema visualizations",
+        "Draw component and deployment diagrams",
+        "Create sequence and activity diagrams",
+        "Design network topology and infrastructure diagrams",
+        "Generate flowcharts for complex processes"
+      ],
+      "priority": "high",
+      "tools": [
+        "Claude AI",
+        "GitHub Copilot",
+        "Cursor"
+      ],
+      "mcpServers": [],
+      "inputs": [
+        {
+          "name": "architectureSpec",
+          "type": "document",
+          "required": true,
+          "description": "Architecture specification"
+        },
+        {
+          "name": "diagramType",
+          "type": "string",
+          "required": true,
+          "description": "Type of diagram to create"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "diagrams",
+          "type": "mermaid|plantuml|draw.io",
+          "description": "Generated diagrams in requested format"
+        },
+        {
+          "name": "diagramDescription",
+          "type": "markdown",
+          "description": "Description and explanation of diagrams"
+        }
+      ],
+      "dependencies": ["arch-001"],
+      "promptTemplate": "prompts/architecture/drawing-agent.md",
+      "configuration": {
+        "supportedFormats": ["mermaid", "plantuml", "draw.io", "lucidchart"],
+        "diagramTypes": ["c4", "uml", "er", "sequence", "component", "deployment", "flowchart"]
+      }
+    },
+    {
+      "id": "fe-001",
+      "name": "UI Builder Agent",
+      "category": "frontend",
+      "phase": "Front-end Development",
+      "owner": "Quang Truong",
+      "responsibilities": [
+        "Implement UI from Figma design",
+        "Implement logic",
+        "Implement unit test"
+      ],
+      "priority": "high",
+      "tools": [
+        "GitHub Copilot",
+        "Cursor"
+      ],
+      "mcpServers": ["Figma MCP"],
+      "inputs": [
+        {
+          "name": "figmaDesign",
+          "type": "figma-url",
+          "required": true,
+          "description": "Figma design file URL"
+        },
+        {
+          "name": "framework",
+          "type": "string",
+          "required": true,
+          "description": "Front-end framework (React, Vue, Angular, etc.)"
+        },
+        {
+          "name": "componentSpecs",
+          "type": "document",
+          "required": false,
+          "description": "Component specifications and behavior"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "components",
+          "type": "code",
+          "description": "Implemented UI components"
+        },
+        {
+          "name": "tests",
+          "type": "code",
+          "description": "Unit tests for components"
+        },
+        {
+          "name": "styles",
+          "type": "css|scss",
+          "description": "Component styles"
+        }
+      ],
+      "dependencies": [],
+      "promptTemplate": "prompts/frontend/ui-builder.md",
+      "configuration": {
+        "testFramework": "Jest",
+        "styleApproach": "CSS-in-JS|SCSS|TailwindCSS",
+        "accessibilityStandards": "WCAG 2.1"
+      },
+      "notes": "Consider creating specific agents for each front-end framework"
+    },
+    {
+      "id": "fe-002",
+      "name": "FE Code Review Agent",
+      "category": "frontend",
+      "phase": "Front-end Development",
+      "owner": "Quang Truong",
+      "responsibilities": [
+        "Code Quality & Readability",
+        "Framework Best Practices",
+        "Performance",
+        "Security & Error Handling",
+        "Accessibility & UX"
+      ],
+      "priority": "high",
+      "tools": [
+        "GitHub Copilot",
+        "Cursor"
+      ],
+      "mcpServers": [],
+      "inputs": [
+        {
+          "name": "codeChanges",
+          "type": "git-diff|pull-request",
+          "required": true,
+          "description": "Code changes to review"
+        },
+        {
+          "name": "framework",
+          "type": "string",
+          "required": true,
+          "description": "Front-end framework being used"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "reviewComments",
+          "type": "structured",
+          "description": "Detailed code review comments"
+        },
+        {
+          "name": "securityIssues",
+          "type": "array",
+          "description": "Identified security vulnerabilities"
+        },
+        {
+          "name": "performanceIssues",
+          "type": "array",
+          "description": "Performance optimization suggestions"
+        }
+      ],
+      "dependencies": [],
+      "promptTemplate": "prompts/frontend/code-review.md",
+      "configuration": {
+        "reviewCategories": ["quality", "performance", "security", "accessibility", "best-practices"],
+        "severity": ["critical", "high", "medium", "low"]
+      },
+      "notes": "Consider using GitHub code review agent for auto-trigger on branch commits"
+    },
+    {
+      "id": "fe-003",
+      "name": "Front-end Quality Check Agent",
+      "category": "frontend",
+      "phase": "Front-end Development",
+      "owner": "Quang Truong",
+      "responsibilities": [
+        "Check application SEO, accessibility, performance and provide fixings"
+      ],
+      "priority": "high",
+      "tools": [
+        "GitHub Copilot",
+        "Cursor",
+        "Google Lighthouse"
+      ],
+      "mcpServers": ["Lighthouse MCP"],
+      "inputs": [
+        {
+          "name": "applicationUrl",
+          "type": "url",
+          "required": true,
+          "description": "Application URL to audit"
+        },
+        {
+          "name": "auditType",
+          "type": "array",
+          "required": true,
+          "description": "Types of audits to run (SEO, accessibility, performance)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "auditReport",
+          "type": "json",
+          "description": "Lighthouse audit report"
+        },
+        {
+          "name": "fixes",
+          "type": "code",
+          "description": "Suggested code fixes"
+        },
+        {
+          "name": "recommendations",
+          "type": "document",
+          "description": "Improvement recommendations"
+        }
+      ],
+      "dependencies": ["fe-001"],
+      "promptTemplate": "prompts/frontend/quality-check.md",
+      "configuration": {
+        "lighthouseConfig": {
+          "categories": ["performance", "accessibility", "best-practices", "seo"],
+          "thresholds": {
+            "performance": 90,
+            "accessibility": 95,
+            "seo": 90
+          }
+        }
+      }
+    },
+    {
+      "id": "fe-004",
+      "name": "UI/UX Prototype Builder Agent",
+      "category": "frontend",
+      "phase": "Front-end Development",
+      "owner": "Quang Truong",
+      "responsibilities": [
+        "Build UI/UX prototype"
+      ],
+      "priority": "high",
+      "tools": [
+        "Figma Make"
+      ],
+      "mcpServers": [],
+      "inputs": [
+        {
+          "name": "requirements",
+          "type": "document",
+          "required": true,
+          "description": "UI/UX requirements"
+        },
+        {
+          "name": "userFlows",
+          "type": "document",
+          "required": false,
+          "description": "User flow diagrams"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "prototype",
+          "type": "figma-file",
+          "description": "Interactive prototype"
+        },
+        {
+          "name": "designSystem",
+          "type": "figma-file",
+          "description": "Design system components"
+        }
+      ],
+      "dependencies": [],
+      "promptTemplate": "prompts/frontend/prototype-builder.md",
+      "configuration": {
+        "prototypeType": "interactive",
+        "designSystemCompliance": true
+      },
+      "notes": "To be developed"
+    },
+    {
+      "id": "be-001",
+      "name": "Planning Agent",
+      "category": "backend",
+      "phase": "Back-end Development",
+      "owner": "Tuan Do",
+      "responsibilities": [
+        "Analyze requirements and create technical specifications",
+        "Break down features into development tasks",
+        "Estimate effort and create sprint plans",
+        "Identify technical dependencies and risks",
+        "Define acceptance criteria for back-end features"
+      ],
+      "priority": "medium",
+      "tools": [
+        "GitHub Copilot",
+        "Cursor"
+      ],
+      "mcpServers": ["Azure DevOps MCP"],
+      "inputs": [
+        {
+          "name": "requirements",
+          "type": "document",
+          "required": true,
+          "description": "Feature requirements"
+        },
+        {
+          "name": "teamCapacity",
+          "type": "object",
+          "required": false,
+          "description": "Team capacity and velocity"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "technicalSpec",
+          "type": "markdown",
+          "description": "Technical specification document"
+        },
+        {
+          "name": "tasks",
+          "type": "array",
+          "description": "Breakdown of development tasks"
+        },
+        {
+          "name": "sprintPlan",
+          "type": "structured",
+          "description": "Sprint planning document"
+        },
+        {
+          "name": "riskAnalysis",
+          "type": "document",
+          "description": "Technical risks and mitigation strategies"
+        }
+      ],
+      "dependencies": ["arch-002"],
+      "promptTemplate": "prompts/backend/planning-agent.md",
+      "configuration": {
+        "estimationMethod": "story-points",
+        "sprintDuration": "2-weeks"
+      }
+    },
+    {
+      "id": "be-002",
+      "name": "Design Note Agent",
+      "category": "backend",
+      "phase": "Back-end Development",
+      "owner": "Tuan Do",
+      "responsibilities": [
+        "Design RESTful API endpoints and contracts",
+        "Create API documentation (OpenAPI/Swagger)",
+        "Define request/response schemas and data models",
+        "Establish API versioning and naming conventions",
+        "Design error response formats"
+      ],
+      "priority": "high",
+      "tools": [
+        "GitHub Copilot",
+        "Cursor"
+      ],
+      "mcpServers": ["Azure DevOps MCP"],
+      "inputs": [
+        {
+          "name": "featureSpec",
+          "type": "document",
+          "required": true,
+          "description": "Feature specification"
+        },
+        {
+          "name": "dataModel",
+          "type": "schema",
+          "required": false,
+          "description": "Data model definitions"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "apiSpec",
+          "type": "openapi",
+          "description": "OpenAPI/Swagger specification"
+        },
+        {
+          "name": "designDocument",
+          "type": "markdown",
+          "description": "API design documentation"
+        },
+        {
+          "name": "schemas",
+          "type": "json-schema",
+          "description": "Request/response schemas"
+        }
+      ],
+      "dependencies": ["be-001"],
+      "promptTemplate": "prompts/backend/design-note.md",
+      "configuration": {
+        "apiStyle": "RESTful",
+        "versioningStrategy": "uri|header",
+        "authenticationMethod": "JWT|OAuth2"
+      }
+    },
+    {
+      "id": "be-003",
+      "name": "Implementation Agent",
+      "category": "backend",
+      "phase": "Back-end Development",
+      "owner": "Tuan Do",
+      "responsibilities": [
+        "Write business logic and service layers",
+        "Implement database models and repositories",
+        "Integrate third-party services and libraries",
+        "Handle authentication, authorization, and middleware"
+      ],
+      "priority": "high",
+      "tools": [
+        "GitHub Copilot",
+        "Cursor"
+      ],
+      "mcpServers": [],
+      "inputs": [
+        {
+          "name": "apiSpec",
+          "type": "openapi",
+          "required": true,
+          "description": "API specification"
+        },
+        {
+          "name": "designDocument",
+          "type": "document",
+          "required": true,
+          "description": "Design documentation"
+        },
+        {
+          "name": "programmingLanguage",
+          "type": "string",
+          "required": true,
+          "description": "Programming language (Node.js, Python, Java, etc.)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "sourceCode",
+          "type": "code",
+          "description": "Implemented business logic"
+        },
+        {
+          "name": "databaseMigrations",
+          "type": "code",
+          "description": "Database migration scripts"
+        },
+        {
+          "name": "integrations",
+          "type": "code",
+          "description": "Third-party service integrations"
+        }
+      ],
+      "dependencies": ["be-002"],
+      "promptTemplate": "prompts/backend/implementation.md",
+      "configuration": {
+        "architecturePattern": "clean-architecture|layered",
+        "ormFramework": "TypeORM|Sequelize|SQLAlchemy",
+        "validationLibrary": "Joi|Yup|class-validator"
+      },
+      "notes": "Specific programming language requires specific agent configuration"
+    },
+    {
+      "id": "be-004",
+      "name": "Code Review Agent",
+      "category": "backend",
+      "phase": "Back-end Development",
+      "owner": "Tuan Do",
+      "responsibilities": [
+        "Review code quality and adherence to standards",
+        "Identify bugs, security vulnerabilities, and anti-patterns",
+        "Suggest performance optimizations and refactoring",
+        "Ensure best practices and design patterns compliance",
+        "Provide constructive feedback and documentation improvements"
+      ],
+      "priority": "high",
+      "tools": [
+        "GitHub Copilot",
+        "Cursor"
+      ],
+      "mcpServers": [],
+      "inputs": [
+        {
+          "name": "codeChanges",
+          "type": "git-diff|pull-request",
+          "required": true,
+          "description": "Code changes to review"
+        },
+        {
+          "name": "codingStandards",
+          "type": "document",
+          "required": false,
+          "description": "Team coding standards"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "reviewReport",
+          "type": "structured",
+          "description": "Comprehensive code review report"
+        },
+        {
+          "name": "securityFindings",
+          "type": "array",
+          "description": "Security vulnerabilities identified"
+        },
+        {
+          "name": "refactoringsuggestions",
+          "type": "array",
+          "description": "Code improvement suggestions"
+        }
+      ],
+      "dependencies": [],
+      "promptTemplate": "prompts/backend/code-review.md",
+      "configuration": {
+        "reviewAspects": ["security", "performance", "maintainability", "testability"],
+        "securityChecks": ["OWASP-Top-10", "injection", "authentication", "sensitive-data"]
+      },
+      "notes": "Consider unified code review agent with auto-trigger on commits"
+    },
+    {
+      "id": "be-005",
+      "name": "Unit Test Agent",
+      "category": "backend",
+      "phase": "Back-end Development",
+      "owner": "Tuan Do",
+      "responsibilities": [
+        "Write unit tests for services and controllers",
+        "Create test fixtures, mocks, and stubs",
+        "Generate test coverage reports",
+        "Maintain and update existing tests"
+      ],
+      "priority": "high",
+      "tools": [
+        "GitHub Copilot",
+        "Cursor"
+      ],
+      "mcpServers": [],
+      "inputs": [
+        {
+          "name": "sourceCode",
+          "type": "code",
+          "required": true,
+          "description": "Source code to test"
+        },
+        {
+          "name": "testFramework",
+          "type": "string",
+          "required": true,
+          "description": "Testing framework (Jest, Mocha, PyTest, JUnit, etc.)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "testCode",
+          "type": "code",
+          "description": "Unit test implementations"
+        },
+        {
+          "name": "coverageReport",
+          "type": "json",
+          "description": "Test coverage report"
+        },
+        {
+          "name": "testDocumentation",
+          "type": "markdown",
+          "description": "Test documentation"
+        }
+      ],
+      "dependencies": ["be-003"],
+      "promptTemplate": "prompts/backend/unit-test.md",
+      "configuration": {
+        "coverageThreshold": 80,
+        "mockingStrategy": "jest.mock|sinon|unittest.mock",
+        "testPatterns": ["AAA", "Given-When-Then"]
+      }
+    },
+    {
+      "id": "test-001",
+      "name": "Test Plan/Strategy Generator",
+      "category": "testing",
+      "phase": "Testing",
+      "owner": "Tien Nguyen",
+      "responsibilities": [
+        "Analyze the requirements and system architecture",
+        "Propose test plan",
+        "Propose test strategy"
+      ],
+      "priority": "high",
+      "tools": [
+        "GitHub Copilot",
+        "Cursor"
+      ],
+      "mcpServers": ["Azure DevOps MCP", "Word MCP"],
+      "inputs": [
+        {
+          "name": "requirements",
+          "type": "document",
+          "required": true,
+          "description": "System requirements"
+        },
+        {
+          "name": "architecture",
+          "type": "document",
+          "required": true,
+          "description": "System architecture documentation"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "testPlan",
+          "type": "document",
+          "description": "Comprehensive test plan"
+        },
+        {
+          "name": "testStrategy",
+          "type": "document",
+          "description": "Testing strategy document"
+        },
+        {
+          "name": "testApproach",
+          "type": "document",
+          "description": "Test approach and methodology"
+        }
+      ],
+      "dependencies": ["arch-001", "arch-002"],
+      "promptTemplate": "prompts/testing/test-plan-generator.md",
+      "configuration": {
+        "testLevels": ["unit", "integration", "system", "acceptance"],
+        "testTypes": ["functional", "non-functional", "regression"]
+      }
+    },
+    {
+      "id": "test-002",
+      "name": "Test Case Generator Agent",
+      "category": "testing",
+      "phase": "Testing",
+      "owner": "Tien Nguyen",
+      "responsibilities": [
+        "Analyze requirements",
+        "Design test case",
+        "Add test case to test management tool"
+      ],
+      "priority": "high",
+      "tools": [
+        "GitHub Copilot",
+        "Cursor"
+      ],
+      "mcpServers": ["Azure DevOps MCP"],
+      "inputs": [
+        {
+          "name": "requirements",
+          "type": "document",
+          "required": true,
+          "description": "Feature requirements"
+        },
+        {
+          "name": "testPlan",
+          "type": "document",
+          "required": false,
+          "description": "Test plan document"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "testCases",
+          "type": "structured",
+          "description": "Generated test cases"
+        },
+        {
+          "name": "testSuites",
+          "type": "structured",
+          "description": "Organized test suites"
+        }
+      ],
+      "dependencies": ["test-001"],
+      "promptTemplate": "prompts/testing/test-case-generator.md",
+      "configuration": {
+        "testCaseFormat": "Given-When-Then|Steps",
+        "includeTestData": true,
+        "prioritization": "risk-based"
+      }
+    },
+    {
+      "id": "test-003",
+      "name": "End-to-End Test Agent",
+      "category": "testing",
+      "phase": "Testing",
+      "owner": "Tien Nguyen",
+      "responsibilities": [
+        "Implement automation script",
+        "Analyze test result",
+        "Test script maintenance"
+      ],
+      "priority": "high",
+      "tools": [
+        "GitHub Copilot",
+        "Cursor"
+      ],
+      "mcpServers": ["Azure DevOps MCP", "Playwright MCP", "Selenium MCP"],
+      "inputs": [
+        {
+          "name": "testCases",
+          "type": "structured",
+          "required": true,
+          "description": "Test cases to automate"
+        },
+        {
+          "name": "applicationUrl",
+          "type": "url",
+          "required": true,
+          "description": "Application URL for testing"
+        },
+        {
+          "name": "automationFramework",
+          "type": "string",
+          "required": true,
+          "description": "Automation framework (Playwright, Selenium, Cypress)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "automationScripts",
+          "type": "code",
+          "description": "E2E test automation scripts"
+        },
+        {
+          "name": "testResults",
+          "type": "json",
+          "description": "Test execution results"
+        },
+        {
+          "name": "reportAnalysis",
+          "type": "document",
+          "description": "Analysis of test results and failures"
+        }
+      ],
+      "dependencies": ["test-002"],
+      "promptTemplate": "prompts/testing/e2e-test.md",
+      "configuration": {
+        "browsers": ["chromium", "firefox", "webkit"],
+        "parallelization": true,
+        "retryStrategy": "on-failure",
+        "reportFormat": "html|json|junit"
+      }
+    }
+  ]
+}

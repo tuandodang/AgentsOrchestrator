@@ -1,0 +1,445 @@
+{
+  "workflows": [
+    {
+      "id": "wf-001",
+      "name": "Full SDLC Workflow",
+      "description": "Complete software development lifecycle from requirements to deployment",
+      "phases": [
+        {
+          "name": "Requirements & Architecture",
+          "sequence": 1,
+          "agents": [
+            {
+              "agentId": "arch-002",
+              "name": "Technical Requirement Analysis Agent",
+              "inputs": ["business_requirements", "stakeholders"],
+              "outputs": ["requirements_doc", "wbs", "traceability_matrix"],
+              "parallel": false
+            },
+            {
+              "agentId": "arch-001",
+              "name": "Technical Documentation Agent",
+              "inputs": ["requirements_doc"],
+              "outputs": ["architecture_doc", "component_diagrams"],
+              "parallel": false,
+              "dependsOn": ["arch-002"]
+            },
+            {
+              "agentId": "arch-003",
+              "name": "Drawing Agent",
+              "inputs": ["architecture_doc"],
+              "outputs": ["diagrams"],
+              "parallel": true,
+              "dependsOn": ["arch-001"]
+            }
+          ]
+        },
+        {
+          "name": "Design & Planning",
+          "sequence": 2,
+          "agents": [
+            {
+              "agentId": "be-001",
+              "name": "Planning Agent",
+              "inputs": ["requirements_doc", "architecture_doc"],
+              "outputs": ["technical_spec", "tasks", "sprint_plan"],
+              "parallel": true
+            },
+            {
+              "agentId": "fe-004",
+              "name": "UI/UX Prototype Builder Agent",
+              "inputs": ["requirements_doc", "user_flows"],
+              "outputs": ["prototype", "design_system"],
+              "parallel": true
+            },
+            {
+              "agentId": "be-002",
+              "name": "Design Note Agent",
+              "inputs": ["technical_spec"],
+              "outputs": ["api_spec", "design_document"],
+              "parallel": false,
+              "dependsOn": ["be-001"]
+            },
+            {
+              "agentId": "test-001",
+              "name": "Test Plan/Strategy Generator",
+              "inputs": ["requirements_doc", "architecture_doc"],
+              "outputs": ["test_plan", "test_strategy"],
+              "parallel": true
+            }
+          ]
+        },
+        {
+          "name": "Implementation",
+          "sequence": 3,
+          "agents": [
+            {
+              "agentId": "be-003",
+              "name": "Implementation Agent",
+              "inputs": ["api_spec", "design_document"],
+              "outputs": ["source_code", "database_migrations"],
+              "parallel": true
+            },
+            {
+              "agentId": "fe-001",
+              "name": "UI Builder Agent",
+              "inputs": ["prototype", "component_specs"],
+              "outputs": ["components", "tests", "styles"],
+              "parallel": true
+            },
+            {
+              "agentId": "be-005",
+              "name": "Unit Test Agent",
+              "inputs": ["source_code"],
+              "outputs": ["test_code", "coverage_report"],
+              "parallel": false,
+              "dependsOn": ["be-003"]
+            }
+          ]
+        },
+        {
+          "name": "Code Review",
+          "sequence": 4,
+          "agents": [
+            {
+              "agentId": "be-004",
+              "name": "Code Review Agent",
+              "inputs": ["code_changes"],
+              "outputs": ["review_report", "security_findings"],
+              "parallel": true
+            },
+            {
+              "agentId": "fe-002",
+              "name": "FE Code Review Agent",
+              "inputs": ["code_changes"],
+              "outputs": ["review_comments", "performance_issues"],
+              "parallel": true
+            }
+          ]
+        },
+        {
+          "name": "Testing",
+          "sequence": 5,
+          "agents": [
+            {
+              "agentId": "test-002",
+              "name": "Test Case Generator Agent",
+              "inputs": ["requirements_doc", "test_plan"],
+              "outputs": ["test_cases", "test_suites"],
+              "parallel": false
+            },
+            {
+              "agentId": "test-003",
+              "name": "End-to-End Test Agent",
+              "inputs": ["test_cases", "application_url"],
+              "outputs": ["automation_scripts", "test_results"],
+              "parallel": false,
+              "dependsOn": ["test-002"]
+            },
+            {
+              "agentId": "fe-003",
+              "name": "Front-end Quality Check Agent",
+              "inputs": ["application_url"],
+              "outputs": ["audit_report", "fixes", "recommendations"],
+              "parallel": true
+            }
+          ]
+        }
+      ],
+      "successCriteria": [
+        "All requirements traced to implementation",
+        "Code review passed",
+        "Test coverage > 80%",
+        "All tests passing",
+        "Performance benchmarks met",
+        "Security vulnerabilities addressed"
+      ]
+    },
+    {
+      "id": "wf-002",
+      "name": "Feature Development Workflow",
+      "description": "Streamlined workflow for adding a new feature",
+      "phases": [
+        {
+          "name": "Planning",
+          "sequence": 1,
+          "agents": [
+            {
+              "agentId": "be-001",
+              "name": "Planning Agent",
+              "inputs": ["feature_requirements"],
+              "outputs": ["technical_spec", "tasks"]
+            },
+            {
+              "agentId": "be-002",
+              "name": "Design Note Agent",
+              "inputs": ["technical_spec"],
+              "outputs": ["api_spec"]
+            }
+          ]
+        },
+        {
+          "name": "Implementation",
+          "sequence": 2,
+          "agents": [
+            {
+              "agentId": "be-003",
+              "name": "Implementation Agent",
+              "inputs": ["api_spec"],
+              "outputs": ["source_code"]
+            },
+            {
+              "agentId": "be-005",
+              "name": "Unit Test Agent",
+              "inputs": ["source_code"],
+              "outputs": ["test_code"]
+            }
+          ]
+        },
+        {
+          "name": "Quality Assurance",
+          "sequence": 3,
+          "agents": [
+            {
+              "agentId": "be-004",
+              "name": "Code Review Agent",
+              "inputs": ["code_changes"],
+              "outputs": ["review_report"]
+            },
+            {
+              "agentId": "test-003",
+              "name": "End-to-End Test Agent",
+              "inputs": ["test_cases"],
+              "outputs": ["test_results"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wf-003",
+      "name": "Bug Fix Workflow",
+      "description": "Workflow for investigating and fixing bugs",
+      "phases": [
+        {
+          "name": "Investigation",
+          "sequence": 1,
+          "agents": [
+            {
+              "agentId": "be-004",
+              "name": "Code Review Agent",
+              "inputs": ["bug_report", "related_code"],
+              "outputs": ["root_cause_analysis"]
+            }
+          ]
+        },
+        {
+          "name": "Fix Implementation",
+          "sequence": 2,
+          "agents": [
+            {
+              "agentId": "be-003",
+              "name": "Implementation Agent",
+              "inputs": ["root_cause_analysis"],
+              "outputs": ["fix_code"]
+            },
+            {
+              "agentId": "be-005",
+              "name": "Unit Test Agent",
+              "inputs": ["fix_code"],
+              "outputs": ["regression_test"]
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "sequence": 3,
+          "agents": [
+            {
+              "agentId": "test-003",
+              "name": "End-to-End Test Agent",
+              "inputs": ["regression_test"],
+              "outputs": ["verification_results"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wf-004",
+      "name": "UI/UX Development Workflow",
+      "description": "Front-end focused development workflow",
+      "phases": [
+        {
+          "name": "Design",
+          "sequence": 1,
+          "agents": [
+            {
+              "agentId": "fe-004",
+              "name": "UI/UX Prototype Builder Agent",
+              "inputs": ["requirements", "user_flows"],
+              "outputs": ["prototype", "design_system"]
+            }
+          ]
+        },
+        {
+          "name": "Implementation",
+          "sequence": 2,
+          "agents": [
+            {
+              "agentId": "fe-001",
+              "name": "UI Builder Agent",
+              "inputs": ["prototype"],
+              "outputs": ["components", "tests"]
+            }
+          ]
+        },
+        {
+          "name": "Quality Check",
+          "sequence": 3,
+          "agents": [
+            {
+              "agentId": "fe-002",
+              "name": "FE Code Review Agent",
+              "inputs": ["code_changes"],
+              "outputs": ["review_comments"]
+            },
+            {
+              "agentId": "fe-003",
+              "name": "Front-end Quality Check Agent",
+              "inputs": ["application_url"],
+              "outputs": ["audit_report", "fixes"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wf-005",
+      "name": "API Development Workflow",
+      "description": "Back-end API focused workflow",
+      "phases": [
+        {
+          "name": "API Design",
+          "sequence": 1,
+          "agents": [
+            {
+              "agentId": "be-002",
+              "name": "Design Note Agent",
+              "inputs": ["feature_spec"],
+              "outputs": ["api_spec", "schemas"]
+            }
+          ]
+        },
+        {
+          "name": "Implementation & Testing",
+          "sequence": 2,
+          "agents": [
+            {
+              "agentId": "be-003",
+              "name": "Implementation Agent",
+              "inputs": ["api_spec"],
+              "outputs": ["source_code"]
+            },
+            {
+              "agentId": "be-005",
+              "name": "Unit Test Agent",
+              "inputs": ["source_code"],
+              "outputs": ["test_code"]
+            }
+          ]
+        },
+        {
+          "name": "Review & Integration Test",
+          "sequence": 3,
+          "agents": [
+            {
+              "agentId": "be-004",
+              "name": "Code Review Agent",
+              "inputs": ["code_changes"],
+              "outputs": ["review_report"]
+            },
+            {
+              "agentId": "test-003",
+              "name": "End-to-End Test Agent",
+              "inputs": ["api_spec"],
+              "outputs": ["api_test_results"]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "agentCommunicationPatterns": {
+    "synchronous": {
+      "description": "Sequential execution where one agent waits for another to complete",
+      "example": "Planning Agent → Design Note Agent → Implementation Agent",
+      "useCases": [
+        "Dependencies between outputs and inputs",
+        "Critical path activities",
+        "Single-threaded workflows"
+      ]
+    },
+    "asynchronous": {
+      "description": "Parallel execution of independent agents",
+      "example": "Back-end Implementation || Front-end Implementation || Test Planning",
+      "useCases": [
+        "Independent work streams",
+        "Parallel development tracks",
+        "Resource optimization"
+      ]
+    },
+    "eventDriven": {
+      "description": "Agents triggered by events from other agents",
+      "example": "Code committed → Code Review Agent → Tests pass → Deployment Agent",
+      "useCases": [
+        "CI/CD pipelines",
+        "Automated workflows",
+        "Real-time processing"
+      ]
+    },
+    "collaborative": {
+      "description": "Multiple agents working on same artifact with handoffs",
+      "example": "Prototype Builder → UI Builder → Code Review → Quality Check",
+      "useCases": [
+        "Refinement processes",
+        "Multi-stage approvals",
+        "Iterative development"
+      ]
+    }
+  },
+  "dataFlow": {
+    "artifacts": [
+      {
+        "name": "requirements_doc",
+        "type": "document",
+        "producedBy": ["arch-002"],
+        "consumedBy": ["arch-001", "be-001", "test-001"]
+      },
+      {
+        "name": "architecture_doc",
+        "type": "document",
+        "producedBy": ["arch-001"],
+        "consumedBy": ["arch-003", "be-001", "test-001"]
+      },
+      {
+        "name": "api_spec",
+        "type": "openapi",
+        "producedBy": ["be-002"],
+        "consumedBy": ["be-003", "test-003"]
+      },
+      {
+        "name": "source_code",
+        "type": "code",
+        "producedBy": ["be-003", "fe-001"],
+        "consumedBy": ["be-004", "fe-002", "be-005"]
+      },
+      {
+        "name": "test_cases",
+        "type": "structured",
+        "producedBy": ["test-002"],
+        "consumedBy": ["test-003"]
+      }
+    ]
+  }
+}

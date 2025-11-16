@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SDLC Agent Configuration Schema",
+  "description": "Schema for defining AI agents in the SDLC orchestration system",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the agent"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the agent"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["architecture", "frontend", "backend", "testing"],
+      "description": "Category of the agent"
+    },
+    "phase": {
+      "type": "string",
+      "description": "SDLC phase this agent operates in"
+    },
+    "owner": {
+      "type": "string",
+      "description": "Owner or maintainer of the agent"
+    },
+    "responsibilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of agent responsibilities"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["high", "medium", "low"],
+      "description": "Priority level of the agent"
+    },
+    "tools": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "AI tools or platforms used by this agent"
+    },
+    "mcpServers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "MCP servers this agent integrates with"
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Input requirements for the agent"
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Expected outputs from the agent"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs this agent depends on"
+    },
+    "promptTemplate": {
+      "type": "string",
+      "description": "Path to the prompt template file"
+    },
+    "configuration": {
+      "type": "object",
+      "description": "Agent-specific configuration parameters"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes or considerations"
+    }
+  },
+  "required": ["id", "name", "category", "responsibilities", "priority"]
+}
